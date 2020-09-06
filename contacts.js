@@ -1,64 +1,51 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
 
-const contactsPath = path.resolve('./db/contacts.json');
+class Contacs {
 
-function listContacts() {
-  fs.readFile(contactsPath, 'utf8', (err, data) => {
-    if (err) throw err;
-    const list = JSON.parse(data).map(item => item.name)
-    console.log(list);
-  })
-}
+  constructor() {
+    this.contactsPath = path.resolve(__dirname, 'db', 'contacts.json')
+  }
 
-function getContactById(contactId) {
-  fs.readFile(contactsPath, 'utf8', (err, data) => {
-    if (err) throw err;
-    const findContact = JSON.parse(data).filter(item => item.id === contactId)
+  listContacts = async () => {
+    const contactList = await fs.readFile(this.contactsPath, 'utf8');
+    return JSON.parse(contactList).map(item => item.name)
+  }
+
+  getContactById = async (contactId) => {
+    const contacts = await fs.readFile(this.contactsPath, 'utf8');
+    const findContact = JSON.parse(contacts).filter(item => item.id === contactId)
     if (findContact.length) {
-      console.log(findContact);
-      return;
+      return findContact;
     }
-    console.log('Contact is not exist')
-  })
-}
+    return 'Contact is not exist';
+  }
 
-function removeContact(contactId) {
-  fs.readFile(contactsPath, 'utf8', (err, data) => {
-    if (err) throw err;
-    const contacts = JSON.parse(data).filter(item => item.id !== contactId)
-    const deletedContact = JSON.parse(data).find(item => item.id === contactId)
 
-    fs.writeFile(contactsPath, JSON.stringify(contacts), (err) => {
-      if (err) throw err;
-      console.log(`The contact ${deletedContact.name} has been successfully removed!`);
-    });
-  })
-}
+  removeContact = async (contactId) => {
+    const contacts = await fs.readFile(this.contactsPath, 'utf8');
+    const newContacts = JSON.parse(contacts).filter(item => item.id !== contactId);
+    const deletedContact = JSON.parse(contacts).find(item => item.id === contactId);
+    await fs.writeFile(this.contactsPath, JSON.stringify(newContacts));
 
-function addContact(name, email, phone) {
-  fs.readFile(contactsPath, 'utf8', (err, data) => {
-    if (err) throw err;
-    const contacts = JSON.parse(data)
+    return `The contact ${deletedContact.name} has been successfully removed!`
+  }
+
+  addContact = async (name, email, phone) => {
+    const contacts = await fs.readFile(this.contactsPath, 'utf8');
+    const contactsList = JSON.parse(contacts);
+    const id = contactsList.length ? [...contactsList].pop().id + 1 : 1;
     const newContact = {
-      id: uuidv4(),
+      id,
       name,
       email,
       phone
     };
-    contacts.push(newContact);
+    contactsList.push(newContact);
 
-    fs.writeFile(contactsPath, JSON.stringify(contacts), (err) => {
-      if (err) throw err;
-      console.log(`The contact ${name} has been successfully saved!`);
-    });
-  })
+    fs.writeFile(this.contactsPath, JSON.stringify(contactsList))
+    return `The contact ${name} has been successfully saved!`;
+  }
 }
 
-module.exports.API = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-}
+module.exports = new Contacs();
