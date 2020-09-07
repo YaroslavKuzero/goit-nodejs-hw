@@ -9,7 +9,7 @@ class Contacs {
 
   listContacts = async () => {
     const contactList = await fs.readFile(this.contactsPath, 'utf8');
-    return JSON.parse(contactList).map(item => item.name)
+    return JSON.parse(contactList)
   }
 
   getContactById = async (contactId) => {

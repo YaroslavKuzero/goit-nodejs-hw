@@ -4,7 +4,7 @@ const argv = require('yargs').argv;
 function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
-      Contacts.listContacts().then(data => console.log(data));
+      Contacts.listContacts().then(data => console.table(data));
       break;
 
     case 'get':
