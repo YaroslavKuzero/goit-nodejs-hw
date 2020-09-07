@@ -43,7 +43,7 @@ class Contacs {
     };
     contactsList.push(newContact);
 
-    fs.writeFile(this.contactsPath, JSON.stringify(contactsList))
+    await fs.writeFile(this.contactsPath, JSON.stringify(contactsList))
     return `The contact ${name} has been successfully saved!`;
   }
 }
