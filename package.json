@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/YaroslavKuzero/goit-nodejs-hw#readme",
   "devDependencies": {
+    "mongoose": "^5.10.6",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "uuid": "^8.3.0",
