@@ -21,8 +21,7 @@ const getCurrentUserController = async (req, res) => {
 const updateSubscriptionController = async (req, res) => {
   try {
     const { subscription } = req.body
-    const { _id } = req.user;
-    const user = await User.getUserById(_id)
+    const user = req.user;
     if (!user) {
       res.status(401).send({
         "message": "Not authorized"

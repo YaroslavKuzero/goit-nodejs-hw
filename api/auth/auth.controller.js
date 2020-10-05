@@ -56,8 +56,7 @@ const loginController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
-    const { id } = req.user
-    const user = await User.getUserById(id)
+    const user = req.user
     if (!user) {
       res.status(401).send({
         "message": "Not authorized"

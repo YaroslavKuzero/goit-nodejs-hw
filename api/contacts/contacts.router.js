@@ -14,7 +14,7 @@ const contactsRouter = Router();
 contactsRouter.get('/', verifyTokenMdlw, getContactsController)
 
 // @GET /api/contacts/:contactId
-contactsRouter.get('/:contactId', getContactById)
+contactsRouter.get('/:contactId', verifyTokenMdlw, getContactById)
 
 // @POST /api/contacts
 contactsRouter.post('/', verifyTokenMdlw, createContactController)
