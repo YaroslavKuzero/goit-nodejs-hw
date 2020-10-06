@@ -2,13 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const {
-  getContactsController,
-  createContactController,
-  updateContactController,
-  deleteContactController,
-  getContactById
-} = require('./contacts.controller');
+const contactsRouter = require('./api/contacts/contacts.router');
+const authRouter = require('./api/auth/auth.router');
+const usersRouter = require('./api/users/users.router');
 
 const PORT = 3000;
 const DB_URI = 'mongodb+srv://admin:admin@cluster0.drfzo.mongodb.net/db-contacts?retryWrites=true&w=majority'
@@ -27,23 +23,14 @@ const runServer = async () => {
   const app = express();
 
   app.use(express.json());
+
   app.use(cors());
   app.use(morgan('combined'));
 
-  // @GET /api/contacts
-  app.get('/api/contacts', getContactsController)
-
-  // @GET /api/contacts/:contactId
-  app.get('/api/contacts/:contactId', getContactById)
-
-  // @POST /api/contacts
-  app.post('/api/contacts', createContactController)
-
-  // @DELETE /api/contacts/:contactId
-  app.delete('/api/contacts/:contactId', deleteContactController)
-
-  // @PATCH /api/contacts/:contactId
-  app.patch('/api/contacts/:contactId', updateContactController)
+  //Routes
+  app.use('/api/contacts', contactsRouter);
+  app.use('/auth', authRouter);
+  app.use('/users', usersRouter);
 
   app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
