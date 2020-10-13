@@ -37,7 +37,28 @@ const updateSubscriptionController = async (req, res) => {
   }
 }
 
+const uploadAvatarController = async (req, res) => {
+  try {
+    const { file } = req;
+    const { user } = req;
+    if (!user) {
+      res.status(401).send({
+        "message": "Not authorized"
+      })
+    }
+    await User.updateUser(user.id, {
+      avatarURL: `http://localhost:3000/images/${file.filename}`
+    })
+    res.status(200).send({
+      "avatarURL": `http://localhost:3000/images/${file.filename}`
+    })
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   getCurrentUserController,
-  updateSubscriptionController
+  updateSubscriptionController,
+  uploadAvatarController
 }

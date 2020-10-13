@@ -1,9 +1,21 @@
+const { string } = require('joi');
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
-    email: String,
-    password: String,
+    email: {
+      type: String,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    avatarURL: {
+      type: String,
+      required: true,
+      default: "https://cdn.dribbble.com/users/205420/screenshots/4188067/users.png"
+    },
     subscription: {
       type: String,
       enum: ["free", "pro", "premium"],
