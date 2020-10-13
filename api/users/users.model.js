@@ -1,5 +1,5 @@
-const { string } = require('joi');
 const mongoose = require('mongoose');
+const { config } = require('../../services/config');
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
     avatarURL: {
       type: String,
       required: true,
-      default: "https://cdn.dribbble.com/users/205420/screenshots/4188067/users.png"
+      default: config.defaultAvatarImg
     },
     subscription: {
       type: String,

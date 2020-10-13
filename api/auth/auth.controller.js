@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../users/users.model');
 const { createToken } = require('../../services/jwt.service');
 const { avatarGenerator } = require('../../services/avatarGenerator.service');
-const { createAvaURL } = require('../../services/createURLforAvatar.service')
+const { createAvaURL, config } = require('../../services/config');
 const fs = require('fs-extra');
 
 const SALT = 6;
@@ -23,7 +23,7 @@ const registerController = async (req, res) => {
       password: cryptedPassword,
     });
     const newAvatar = await avatarGenerator(newUser.id);
-    await fs.move(newAvatar, `public/images/avatar-${newUser.id}.png`);
+    await fs.move(newAvatar, `${config.staticURL}/avatar-${newUser.id}.png`);
     const avatarURL = await createAvaURL(newUser.id);
     await User.updateUser(newUser.id, { avatarURL });
     res.status(201).send({

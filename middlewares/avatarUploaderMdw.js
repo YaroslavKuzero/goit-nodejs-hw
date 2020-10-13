@@ -1,11 +1,10 @@
-const { func } = require('joi');
-const { diskStorage } = require('multer');
 const multer = require('multer');
+const { config } = require('../services/config');
 
 const avatarUploader = () => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/images')
+      cb(null, config.staticURL)
     },
     filename: function (req, file, cb) {
       cb(null, `avatar-${req.user.id}.png`)
