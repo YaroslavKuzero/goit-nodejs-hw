@@ -15,6 +15,7 @@ const config = {
   hostURL: 'http://localhost:3000/',
   defaultAvatarImg: 'https://cdn.dribbble.com/users/205420/screenshots/4188067/users.png',
   pathToSprites: 'node_modules/avatar-generator/img',
+  senderEmail: 'yarikkuzero@gmail.com'
 }
 module.exports = {
   createAvaURL,

@@ -26,7 +26,7 @@ const registerController = async (req, res) => {
       password: cryptedPassword,
       verificationToken,
     });
-    sendEmail(newUser.email, verificationToken);
+    await sendEmail(newUser.email, verificationToken);
     const newAvatar = await avatarGenerator(newUser.id);
     await fs.move(newAvatar, `${config.staticURL}/avatar-${newUser.id}.png`);
     const avatarURL = await createAvaURL(newUser.id);
