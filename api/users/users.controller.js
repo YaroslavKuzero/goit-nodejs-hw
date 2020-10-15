@@ -1,4 +1,5 @@
 const User = require('./users.model');
+const { createAvaDB } = require('../../services/config');
 
 const getCurrentUserController = async (req, res) => {
   try {
@@ -37,7 +38,27 @@ const updateSubscriptionController = async (req, res) => {
   }
 }
 
+const uploadAvatarController = async (req, res) => {
+  try {
+    const { file } = req;
+    const { user } = req;
+    if (!user) {
+      res.status(401).send({
+        "message": "Not authorized"
+      })
+    }
+    const avatarURL = await createAvaDB(file.filename)
+    await User.updateUser(user.id, { avatarURL })
+    res.status(200).send({
+      "avatarURL": avatarURL
+    })
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   getCurrentUserController,
-  updateSubscriptionController
+  updateSubscriptionController,
+  uploadAvatarController
 }

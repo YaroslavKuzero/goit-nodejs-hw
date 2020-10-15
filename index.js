@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path')
 const contactsRouter = require('./api/contacts/contacts.router');
 const authRouter = require('./api/auth/auth.router');
 const usersRouter = require('./api/users/users.router');
@@ -21,6 +22,8 @@ const runServer = async () => {
 
   //run express
   const app = express();
+
+  app.use('/images', express.static(path.resolve(__dirname, 'public/images')));
 
   app.use(express.json());
 

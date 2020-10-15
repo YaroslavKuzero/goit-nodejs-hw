@@ -1,9 +1,21 @@
 const mongoose = require('mongoose');
+const { config } = require('../../services/config');
 
 const userSchema = new mongoose.Schema(
   {
-    email: String,
-    password: String,
+    email: {
+      type: String,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    avatarURL: {
+      type: String,
+      required: true,
+      default: config.defaultAvatarImg
+    },
     subscription: {
       type: String,
       enum: ["free", "pro", "premium"],
