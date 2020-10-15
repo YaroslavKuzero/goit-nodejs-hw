@@ -1,7 +1,5 @@
 const AvatarGenerator = require('avatar-generator');
 const { config, tempPath } = require('./config');
-const path = require('path');
-
 
 const avatar = new AvatarGenerator({
   parts: ['background', 'face', 'clothes', 'head', 'hair', 'eye', 'mouth'], //order in which sprites should be combined

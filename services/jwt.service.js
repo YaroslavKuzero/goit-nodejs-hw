@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const KEY = "kayofmcvxperin5dl9qpwb";
+const KEY = process.env.KEY;
 
 const createToken = async (payload) => {
   const token = await jwt.sign(payload, KEY);

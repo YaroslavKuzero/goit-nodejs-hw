@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -7,8 +8,8 @@ const contactsRouter = require('./api/contacts/contacts.router');
 const authRouter = require('./api/auth/auth.router');
 const usersRouter = require('./api/users/users.router');
 
-const PORT = 3000;
-const DB_URI = 'mongodb+srv://admin:admin@cluster0.drfzo.mongodb.net/db-contacts?retryWrites=true&w=majority'
+const PORT = process.env.PORT || 3000;
+const DB_URI = process.env.DB_URI || 'mongodb+srv://admin:admin@cluster0.drfzo.mongodb.net/db-contacts?retryWrites=true&w=majority'
 
 const runServer = async () => {
   //connection to db
