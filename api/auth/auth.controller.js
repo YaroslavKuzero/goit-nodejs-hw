@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 const User = require('../users/users.model');
+const { v4: uuidv4 } = require('uuid');
 const { createToken } = require('../../services/jwt.service');
 const { avatarGenerator } = require('../../services/avatarGenerator.service');
 const { createAvaURL, config } = require('../../services/config');
+const { sendEmail } = require('../../services/email.service')
 const fs = require('fs-extra');
 
 const SALT = 6;
@@ -17,11 +19,14 @@ const registerController = async (req, res) => {
         "message": "Email in use"
       })
     }
+    const verificationToken = uuidv4();
     const cryptedPassword = await bcrypt.hash(body.password, SALT);
     const newUser = await User.createUser({
       ...body,
       password: cryptedPassword,
+      verificationToken,
     });
+    await sendEmail(newUser.email, verificationToken);
     const newAvatar = await avatarGenerator(newUser.id);
     await fs.move(newAvatar, `${config.staticURL}/avatar-${newUser.id}.png`);
     const avatarURL = await createAvaURL(newUser.id);
@@ -77,9 +82,26 @@ const logoutController = async (req, res) => {
   }
 }
 
+const verifyTokenController = async (req, res) => {
+  try {
+    const { verificationToken } = req.params
+    console.log(verificationToken);
+    const user = await User.findUser({ verificationToken: verificationToken })
+    if (!user) {
+      res.status(400).send('User not found');
+      return
+    }
+    await User.updateUser(user.id, { verificationToken: '' })
+    res.status(200).end();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 module.exports = {
   registerController,
   loginController,
-  logoutController
+  logoutController,
+  verifyTokenController
 }

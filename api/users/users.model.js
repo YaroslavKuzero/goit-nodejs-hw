@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
     token: {
       type: String,
       default: ''
+    },
+    verificationToken: {
+      type: String,
+      default: ''
     }
   }
 )

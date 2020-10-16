@@ -2,7 +2,8 @@ const { Router } = require('express');
 const {
   registerController,
   loginController,
-  logoutController
+  logoutController,
+  verifyTokenController
 } = require('./auth.controller');
 const { verifyTokenMdlw } = require('./auth.checkToken');
 const validationMiddleware = require('./auth.validation');
@@ -17,5 +18,8 @@ authRouter.post('/login', validationMiddleware, loginController);
 
 // ##POST /auth/logout
 authRouter.post('/logout', verifyTokenMdlw, logoutController);
+
+//##GET /auth/verify/:verificationToken
+authRouter.get('/verify/:verificationToken', verifyTokenController)
 
 module.exports = authRouter;
