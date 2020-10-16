@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const createToken = async (payload) => {
-  const token = await jwt.sign(payload, KEY);
+  const token = await jwt.sign(payload, JWT_SECRET_KEY);
   return `Bearer ${token}`
 }
 
