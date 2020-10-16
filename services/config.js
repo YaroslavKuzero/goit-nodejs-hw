@@ -1,13 +1,13 @@
-const createAvaURL = async (id) => {
-  return await `http://localhost:3000/images/avatar-${id}.png`
+const createAvaURL = (id) => {
+  return `http://localhost:3000/images/avatar-${id}.png`
 }
 
-const tempPath = async (id) => {
-  return await `tmp/${id}.png`
+const tempPath = (id) => {
+  return `tmp/${id}.png`
 }
 
-const createAvaDB = async (filename) => {
-  return await `http://localhost:3000/images/${filename}`
+const createAvaDB = (filename) => {
+  return `http://localhost:3000/images/${filename}`
 }
 
 const config = {
